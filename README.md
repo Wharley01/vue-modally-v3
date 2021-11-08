@@ -43,17 +43,17 @@ Now that you are done installing VueModally, next is to launch our first modal, 
 
 ```html
 <script setup>
-import ModalComponent from './ModalComponent'
+import ModalComponent from './ModalComponent.vue'
 
 
 </script>
 ```
 
-then import the useModal composable from vue-modally-v3 library then call it with the imported component as the first argument
+then import the useModal composable from vue-modally-v3 library and call it using the imported component as the first argument
 
 ```html
 <script setup>
-import ModalComponent from './ModalComponent'
+import ModalComponent from './ModalComponent.vue'
 import {useModal} from 'vue-modally-v3'
 
 
@@ -72,7 +72,7 @@ let response = await useModal(ModalComponent,{
 </script>
 ```
 
-Last step is adding the <ModalRoot> component to your root component `App.vue` or your main layout in case of nuxt3, this step is very important
+Last step is adding the `&lt;ModalRoot&gt;` component to your root component `App.vue` or your main layout in case of nuxt3, this step is very important
 
 ## Closing modal within modal component
 
