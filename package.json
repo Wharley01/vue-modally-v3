@@ -1,0 +1,18 @@
+{
+  "name": "vue-modally-v3",
+  "version": "0.0.0",
+  "main": "./src/vueModally.ts",
+  "types": "./src/vueModally.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.2.16"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.9.3",
+    "vite": "^2.6.4"
+  }
+}
