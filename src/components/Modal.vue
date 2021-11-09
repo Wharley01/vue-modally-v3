@@ -32,7 +32,7 @@
 
 <script lang="ts">
 import {ref,computed} from "vue"
-import {closeModal} from "../vueModally";
+// import {closeModal} from "../vueModally";
 
 export default {
   name: "Modal",
@@ -67,6 +67,10 @@ export default {
     blur: {
       type: Boolean,
       default: true
+    },
+    closeModalFnc: {
+      type: Function,
+      default: true
     }
   },
   setup(props,context){
@@ -85,12 +89,13 @@ export default {
         ? modal_class.value[props.modal_type].anim_in
         : modal_class.value[props.modal_type].anim_out)
 
+    let {emit} = context
 
     function close() {
       if (props.modal_closable) {
         console.log('should close modal now')
-        closeModal(props.modal_index)
-        // context.emit('close', props.modal_index)
+        props.closeModalFnc(props.modal_index)
+        console.log(context)
       }
     }
 

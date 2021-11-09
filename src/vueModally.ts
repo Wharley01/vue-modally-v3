@@ -1,17 +1,7 @@
-import {ref,watch} from "vue"
+import {App, ref, Ref} from "vue"
+//@ts-ignore
 import ModalRoot from "./components/ModalRoot.vue";
-let modals = ref([])
-let transition_delay = 300;
-let default_options: Options = {
-    width: 700,
-    padding: 20,
-    background: 'white',
-    type: 'modal',
-    blur: true,
-    closable: true
-}
-
-interface Options{
+interface Options {
     width?: number,
     padding?: number,
     background?: string,
@@ -20,101 +10,111 @@ interface Options{
     closable?: boolean
 }
 
-export default  {
-    install(app,options: Options){
-        app.provide('$modals', modals)
-        default_options = {
-            ...options,
-            ...default_options
+const VueModally = {
+    default_options: {
+        width: 700,
+        padding: 20,
+        background: 'white',
+        type: 'modal',
+        blur: true,
+        closable: true
+    } as Options,
+    transition_delay: 300,
+    modals: ref([]) as Ref<any[]>,
+    install(app: App, options: Options) {
+        app.provide('$modals', this.modals)
+        // $closeModal: closeModal,
+        //     $closeAllModal: closeAllModal,
+        app.config.globalProperties.$closeModal = (index,$event) => {
+            console.log('closeModal called')
+            return closeModal(index,$event)
         }
-        app.component('ModalRoot',ModalRoot)
+        this.default_options = {
+            ...options,
+            ...this.default_options
+        }
 
+        app.component('ModalRoot', ModalRoot)
+    },
+    openModal(component, configs: { props?: any, options?: Options } = {options: {}, props: {}}, onClosed = null) {
+
+        let {props, options} = configs
+
+        options = {
+            ...this.default_options,
+            ...options
+        }
+        // console.log({index})
+        // modals
+        let index = this.addNewModal({
+            component,
+            props,
+            options,
+            onClosed
+        })
+    },
+    addNewModal(component, configs = {}) {
+        component = {
+            ...component,
+            ...configs,
+            closed: false
+        };
+
+        this.modals.value.push(component);
+        return this.modals.value.length - 1
+    },
+    fireClosedCallback(index, $event) {
+        let closedFnc = this.modals.value[index].onClosed;
+        if (typeof closedFnc == 'function') {
+            closedFnc($event);
+        }
+    },
+    closeAllModal($event) {
+        // this.modals.value = [];
+        // return;
+        let total = this.modals.value.length;
+        if (total === 1) {
+            this.closeLastModal();
+            return;
+        }
+
+        for (let index = 0; index < total; index++) {
+            this.setModalCloseState(index);
+            this.fireClosedCallback(index, $event);
+            setTimeout(() => this.modals.value.pop(), index * this.transition_delay);
+        }
+    },
+    setModalCloseState(index) {
+        this.modals.value[index].closed = true
+    },
+    closeLastModal() {
+        if (this.modals.value.length > 0) {
+            this.setModalCloseState(this.modals.value.length - 1);
+            // this.fireClosedCallback(0);
+            setTimeout(() => {
+                if (this.modals.value.length > 0) this.modals.value.pop();
+            }, this.transition_delay);
+        }
     }
 }
 
-export async function useModal(component, configs:{props?: any,options?: Options} = {options: {},props: {}},onClosed = null) {
+export default VueModally
+
+export async function useModal(component, configs: { props?: any, options?: Options } = {options: {}, props: {}}, onClosed = null) {
     return new Promise((resolve, reject) => {
-        return openModal(component,configs,(event) => {
+        return VueModally.openModal(component, configs, (event) => {
             resolve(event)
         })
     })
 }
 
-function openModal(component, configs:{props?: any,options?: Options} = {options: {},props: {}},onClosed = null) {
-
-    let {props, options} = configs
-
-    options = {
-        ...default_options,
-        ...options
-    }
-    // console.log({index})
-    // modals
-    let index = addNewModal({
-        component,
-        props,
-        options,
-        onClosed
-    })
-}
-
-function addNewModal(component, configs = {}) {
-    component = {
-        ...component,
-        ...configs,
-        closed: false
-    };
-
-    modals.value.push(component);
-
-    return modals.value.length -1
-}
-
-function fireClosedCallback(index,$event){
-    let closedFnc = modals.value[index].onClosed;
-    if(typeof closedFnc == 'function'){
-        closedFnc($event);
-    }
-}
-
-
-export function closeModal(index,$event = null){
+export function closeModal(index, $event = null) {
     console.log({cIndex: index})
-    setModalCloseState(index);
-    fireClosedCallback(index,$event);
+    VueModally.setModalCloseState(index);
+    VueModally.fireClosedCallback(index, $event);
     setTimeout(() => {
-        if (index > -1) modals.value.splice(index, 1);
-    }, transition_delay);
+        if (index > -1) VueModally.modals.value.splice(index, 1);
+    }, VueModally.transition_delay);
 }
 
-export function closeAllModal($event) {
-    // modals.value = [];
-    // return;
-    let total = modals.value.length;
-    if (total === 1) {
-        this.closeLastModal();
-        return;
-    }
 
-    for (let index = 0; index < total; index++) {
-        this.setModalCloseState(index);
-        this.fireClosedCallback(index,$event);
-        setTimeout(() => modals.value.pop(), index * transition_delay);
-    }
-}
-
-function setModalCloseState(index) {
-    let modal = modals.value[index]
-    modal.closed = true
-    modals.value[index] = modal;
-}
-
-export function closeLastModal() {
-    if (modals.value.length > 0) {
-        setModalCloseState(modals.value.length - 1);
-        // this.fireClosedCallback(0);
-        setTimeout(() => {
-            if (modals.value.length > 0) modals.value.pop();
-        }, transition_delay);
-    }
-}

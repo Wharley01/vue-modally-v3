@@ -1,8 +1,11 @@
 {
   "name": "vue-modally-v3",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "main": "./src/vueModally.ts",
   "types": "./src/vueModally.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",

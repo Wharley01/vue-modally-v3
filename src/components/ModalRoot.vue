@@ -12,11 +12,12 @@
       :modal_type="modal.options.type"
       :blur="modal.options.blur"
       :closed="modal.closed"
+      :close-modal-fnc="$closeModal"
       :style="'z-index: ' + (201 + index)"
   >
     <component
-        @close="closeModal(index,$event)"
-        @close-all="closeAllModal($event)"
+        @close="$closeModal(index,$event)"
+        @close-all="$closeAllModal($event)"
         v-bind="modal.props"
         :is="modal.component"
     ></component>
@@ -32,7 +33,7 @@ export default {
 }
 </script>
 <script setup lang="ts">
-import {closeModal,closeAllModal} from "../vueModally";
+// import {closeModal,closeAllModal} from "../vueModally";
 </script>
 
 <style scoped>

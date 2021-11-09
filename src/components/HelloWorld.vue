@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
-
+import {useModal} from "../vueModally";
+import Test from "./Test.vue";
 defineProps({
   msg: String
 })
@@ -26,7 +27,7 @@ const count = ref(0)
     <a href="https://v3.vuejs.org/" target="_blank">Vue 3 Documentation</a>
   </p>
 
-  <button type="button" @click="count++">count is: {{ count }}</button>
+  <button type="button" @click="useModal(Test)">open modal</button>
   <p>
     Edit
     <code>components/HelloWorld.vue</code> to test hot module replacement.
