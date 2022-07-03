@@ -93,9 +93,9 @@ export default {
 
     function close() {
       if (props.modal_closable) {
-        console.log('should close modal now')
+        // console.log('should close modal now')
         props.closeModalFnc(props.modal_index)
-        console.log(context)
+        // console.log(context)
       }
     }
 
