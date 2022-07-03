@@ -7,7 +7,8 @@ interface Options {
     background?: string,
     type?: 'modal' | 'panel' | 'side',
     blur?: boolean,
-    closable?: boolean
+    closable?: boolean,
+    mobile? : 'modal' | 'panel' | 'side' 
 }
 
 const VueModally = {
@@ -17,7 +18,8 @@ const VueModally = {
         background: 'white',
         type: 'modal',
         blur: true,
-        closable: true
+        closable: true,
+        mobile: null
     } as Options,
     transition_delay: 300,
     modals: ref([]) as Ref<any[]>,
@@ -26,7 +28,7 @@ const VueModally = {
         // $closeModal: closeModal,
         //     $closeAllModal: closeAllModal,
         app.config.globalProperties.$closeModal = (index,$event) => {
-            console.log('closeModal called')
+            // console.log('closeModal called')
             return closeModal(index,$event)
         }
         this.default_options = {
@@ -109,7 +111,7 @@ export async function useModal(component, configs: { props?: any, options?: Opti
 }
 
 export function closeModal(index, $event = null) {
-    console.log({cIndex: index})
+    // console.log({cIndex: index})
     VueModally.setModalCloseState(index);
     VueModally.fireClosedCallback(index, $event);
     setTimeout(() => {
