@@ -9,7 +9,7 @@ you can install vue-modally-v3 with npm or yarn as described below
 yarn add vue-modally-v3 // or npm install vue-modally-v3
 ```
 
-## Usage with Vue3 core
+## Configuration with Vue3 core
 
 import the installed vue-modally-v3 in your main.js file
 
@@ -23,8 +23,14 @@ then use the .use() method to add VueModally to plugin lists
 createApp(App).use(VueModally).mount('#app')
 ```
 
+then add the inbuilt modal component to the root component of your Vue app `App.vue`
 
-## Add to Nuxt3 project
+```vue
+  <modal-root></modal-root> // no need for importing since it is built into the plugin 
+```
+
+
+## Install to Nuxt3 project
 
 create a file called vueModally in your plugins folder, then go ahead to define your plugin according to nuxt3 doc, sample code below:
 
@@ -36,8 +42,13 @@ export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.use(VueModally, {});
 });
 ```
+then add the inbuilt modal component to the root component of your Nuxt app `Layout` or `Pages` 
 
-## Launch a modal
+```vue
+  <modal-root></modal-root> // no need for importing since it is built into the plugin 
+```
+
+## Usage
 
 Now that you are done installing VueModally, next is to launch our first modal, first step is importing your vue modal component
 
@@ -49,7 +60,7 @@ import ModalComponent from './ModalComponent.vue'
 </script>
 ```
 
-then import the useModal composable from vue-modally-v3 library and call it using the imported component as the first argument
+then import the `useModal` composable from vue-modally-v3 library and call it using the imported component as the first argument
 
 ```html
 <script setup>
@@ -72,14 +83,20 @@ let response = await useModal(ModalComponent,{
 </script>
 ```
 
-Last step is adding the `&lt;ModalRoot&gt;` component to your root component `App.vue` or your main layout in case of nuxt3, this step is very important
-
 ## Closing modal within modal component
 
-With vue-modally-v3, you can close the modal within itself by emitting the 'close' event, 
+With vue-modally-v3, you can close the modal within itself by emitting the `'close'` event
 
-and any argument passed to the event will be returned as value to where the modal is being called, 
+```vue
+  <button @click="emit('close')">I'm a close modal button inside the modal opened</button>
+```
 
-this can be used to return decisions made within the modal component, 
+and any argument passed to the event will be returned as value to where the modal is being called,
+this can be used to return decisions made within the modal component,
+```vue
+  <button @click="emit('close', someDataPassed)">I'm a close modal button inside the modal opened</button>
+```
+
+
 
 if user closes the modal with escape key or by clicking outside, the returned value will be null
