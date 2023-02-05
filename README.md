@@ -82,6 +82,18 @@ let response = await useModal(ModalComponent,{
 
 </script>
 ```
+Other `options` includes:
+<br>
+`closable` : to disable the modal closing when user clicks outside, accepts `true` or `false` default is false 
+<br>
+
+`padding` : to add padding to the modal wrapper, accepts a `number`  default is 0
+<br>
+
+`type` : vueModally has different modal types which are `modal` - middle of the page, `panel`- from the bottom of the page, `side` - from the side of the page
+<br>
+
+`mobile`: You might want a different modal type for mobile, accepts modal type
 
 ## Closing modal within modal component
 
