@@ -12,6 +12,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "sass": "^1.62.1",
     "vue": "^3.2.16"
   },
   "devDependencies": {
