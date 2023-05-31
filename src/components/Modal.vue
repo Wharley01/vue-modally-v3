@@ -30,13 +30,10 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import {ref,computed} from "vue"
 // import {closeModal} from "../vueModally";
-
-export default {
-  name: "Modal",
-  props: {
+let props = defineProps({
     modal_index: {
       type: Number
     },
@@ -72,10 +69,10 @@ export default {
       type: Function,
       default: true
     }
-  },
-  setup(props,context){
+  });
 
-    let modal_class = ref({
+
+  let modal_class = ref({
       modal: {cls: "is-modal",anim_in: "zoomIn",anim_out: "zoomOut",style: `padding: ${props.modal_padding}px;`},
       panel: {cls: "is-panel",anim_in: "slideInUp",anim_out: "slideOutDown",style: 'padding: 0'},
       side: {cls: "is-side",anim_in: "slideInRight",anim_out: "slideOutRight",style: 'padding: 0'}
@@ -89,7 +86,7 @@ export default {
         ? modal_class.value[props.modal_type].anim_in
         : modal_class.value[props.modal_type].anim_out)
 
-    let {emit} = context
+    // let {emit} = context
 
     function close() {
       if (props.modal_closable) {
@@ -99,15 +96,8 @@ export default {
       }
     }
 
-    return {
-      modal_class,
-      is_panel,
-      is_side,
-      close,
-      anim_class
-    }
-  }
-}
+
+
 </script>
 
 <style src="../assets/animate.css"></style>
