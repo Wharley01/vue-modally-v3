@@ -1,6 +1,6 @@
 {
   "name": "vue-modally-v3",
-  "version": "0.0.9",
+  "version": "0.0.16",
   "main": "./src/vueModally.ts",
   "types": "./src/vueModally.ts",
   "publishConfig": {

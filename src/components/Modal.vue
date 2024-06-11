@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts" setup>
-import {ref,computed} from "vue"
+import {ref,computed, reactive} from "vue"
 // import {closeModal} from "../vueModally";
 let props = defineProps({
     modal_index: {
@@ -72,19 +72,19 @@ let props = defineProps({
   });
 
 
-  let modal_class = ref({
+  let modal_class = {
       modal: {cls: "is-modal",anim_in: "zoomIn",anim_out: "zoomOut",style: `padding: ${props.modal_padding}px;`},
       panel: {cls: "is-panel",anim_in: "slideInUp",anim_out: "slideOutDown",style: 'padding: 0'},
       side: {cls: "is-side",anim_in: "slideInRight",anim_out: "slideOutRight",style: 'padding: 0'}
-    })
+    }
 
     let is_panel = computed(() => props.modal_type === "panel")
 
     let is_side = computed(() => props.modal_type === "side")
 
     let anim_class = computed(() => !props.closed
-        ? modal_class.value[props.modal_type].anim_in
-        : modal_class.value[props.modal_type].anim_out)
+        ? modal_class[props.modal_type].anim_in
+        : modal_class[props.modal_type].anim_out)
 
     // let {emit} = context
 

@@ -19,7 +19,7 @@ const VueModally = {
         type: 'modal',
         blur: true,
         closable: true,
-        mobile: null
+        mobile: 'panel'
     } as Options,
     transition_delay: 300,
     modals: ref([]) as Ref<any[]>,
